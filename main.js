@@ -84,6 +84,18 @@ function handleAuthClick() {
 
 
 
+document.getElementById('registerButton').addEventListener('click', function () {
+    document.getElementById('incident-form').submit();
+});
+
+
+
+
+document.getElementById('incident-form').addEventListener('submit', function (e) {
+    e.preventDefault();  // Prevenir el refresco
+    console.log('Formulario enviado en móvil o PC');
+    addOrUpdateIncident();
+});
 
 
 
