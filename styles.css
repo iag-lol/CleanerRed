@@ -345,45 +345,117 @@ form label span {
 
 /* ================= MODAL ESTILOS ================= */
 .modal {
-    display: none; 
+    display: flex; /* Hacer que el modal sea visible desde el inicio */
     position: fixed;
     z-index: 1000;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); 
-    display: flex;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro */
     justify-content: center;
     align-items: center;
     transition: opacity 0.3s ease;
+    opacity: 1; /* Para asegurar que aparezca */
+    animation: fadeIn 0.5s ease; /* Animación suave */
 }
 
 .modal-content {
     background-color: #fff;
     padding: 30px;
-    border-radius: 10px;
+    border-radius: 15px;
     text-align: center;
     width: 90%;
     max-width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    animation: slideDown 0.5s ease; /* Animación de deslizamiento */
 }
 
+/* Estilo de los botones dentro del modal */
 button {
-    padding: 10px 20px;
+    padding: 12px 20px;
     background-color: #224e9d;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     margin-top: 20px;
     width: 100%;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
+/* Estilos avanzados para el input de nombre completo */
+#nombreCompleto {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 2px solid rgba(34, 78, 157, 0.3); /* Borde inicial con transparencia */
+    border-radius: 8px;
+    background-color: #f9f9f9; /* Fondo claro */
+    color: #333; /* Color del texto */
+    outline: none; /* Eliminar el borde azul al hacer clic */
+    transition: border 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+#nombreCompleto::placeholder {
+    color: #999; /* Color del placeholder */
+    font-style: italic; /* Estilo del placeholder */
+}
+
+/* Efecto cuando el input está enfocado */
+#nombreCompleto:focus {
+    border: 2px solid #224e9d; /* Cambiar el color del borde al enfocar */
+    box-shadow: 0 6px 12px rgba(34, 78, 157, 0.2); /* Sombra más intensa al enfocar */
+    background-color: #fff; /* Fondo blanco al enfocar */
+}
+
+/* Responsividad para dispositivos móviles */
+@media (max-width: 768px) {
+    #nombreCompleto {
+        font-size: 0.9rem; /* Ajustar el tamaño de la fuente en pantallas más pequeñas */
+        padding: 10px 12px; /* Reducir el padding en móviles */
+    }
+}
+
 
 button:hover {
     background-color: #1d3b7a;
+    transform: scale(1.05); /* Efecto de aumento al pasar el cursor */
 }
+
+/* Animaciones del modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+}
+
 
 .user-card {
     background-color: #fff;
@@ -402,6 +474,86 @@ button:hover {
 .status-connected {
     color: green;
 }
+
+
+
+
+
+
+
+/* Modal */
+.modalUnique {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contentUnique {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-height: 80%;  /* Altura máxima para la ventana modal */
+    overflow-y: auto; /* Scroll si es necesario */
+}
+
+/* Estilo de la tabla */
+#pendientesTableUnique {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#pendientesTableUnique th, #pendientesTableUnique td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+#pendientesTableUnique th {
+    background-color: #224e9d;
+    color: white;
+}
+
+/* Botón de cerrar el modal */
+.close-modalUnique {
+    background-color: #ff4040;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.close-modalUnique:hover {
+    background-color: #ff2020;
+}
+
+/* Responsividad para móviles */
+@media (max-width: 768px) {
+    .modal-contentUnique {
+        width: 95%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -428,6 +580,22 @@ button:hover {
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+select:focus {
+    border-color: #224e9d;  /* Cambia el borde al color azul al hacer foco */
+    outline: none;
+}
+
+
 
 /* Cabeceras */
 #tasksTable thead {
@@ -523,91 +691,41 @@ button:hover {
 }
 
 
-
-/* Estilos comunes para ambas alertas */
 .alert {
-    display: none; /* Oculto por defecto */
-    position: relative;
-    width: 300px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 0.5rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    margin: 20px auto;
-    text-align: left;
-}
-
-.dismiss {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    padding: 0.5rem;
-    border: none;
-    background-color: transparent;
-    font-size: 1rem;
-    cursor: pointer;
-    color: #999;
-    transition: color 0.3s ease;
-}
-
-.dismiss:hover {
-    color: #ff0000;
-}
-
-.header {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 16px;
     display: flex;
     align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
-.image {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #e2feee;
-    border-radius: 50%;
-    margin-right: 15px;
-}
-
-.image svg {
+.alert .icon {
     width: 24px;
     height: 24px;
 }
 
-.content .title {
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
-.content .message {
-    margin-top: 5px;
-    font-size: 0.9rem;
-    color: #595b5f;
-}
-
-/* Estilos específicos para éxito */
-.success .image {
-    background-color: #e2feee;
-}
-
-.success .image svg path {
-    stroke: #0afa2a;
-}
-
-.success .title {
+.alert-success {
+    background-color: #e6f7e6;
     color: #066e29;
 }
 
-/* Estilos específicos para error */
-.error .image {
-    background-color: #ffe2e2;
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
-.error .image svg path {
-    stroke: #ff0000;
+.alert .message {
+    margin-left: 10px;
 }
 
-.error .title {
-    color: #ff0000;
+.alert svg {
+    fill: currentColor;
 }
+
