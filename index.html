@@ -31,8 +31,8 @@
     <!-- Modal para ingresar nombre y autenticarse -->
     <div id="sessionModal" class="modal">
         <div class="modal-content">
-            <h2>Ingrese su nombre completo</h2>
-            <input type="text" id="nombreCompleto" placeholder="Nombre Completo" required>
+            <h2>Ingrese su nombre completo</h2><br><br><br>
+            <input type="text" id="nombreCompleto" placeholder="Nombre Completo" required><br><br><br>
             <button id="saveNameBtn" onclick="saveNameAndProceed()">Guardar</button>
             <button class="close-modal" onclick="closeModal()">Cerrar</button>
         </div>
@@ -84,28 +84,57 @@
         <section id="form-section">
             <h2>Registrar Tarea</h2>
             <form id="incident-form">
+       <form id="incident-form">
+    <!-- PPU con datalist para autocompletar -->
+    <input type="text" id="ppu" placeholder="Ingrese PPU" required list="ppu-options">
+    <datalist id="ppu-options"></datalist> <!-- Aquí se cargarán las opciones de la flota -->
 
-                <input type="text" id="ppu" placeholder="Ingrese PPU" required list="ppu-options">
-                <datalist id="ppu-options"></datalist> <!-- Aquí se cargarán las opciones de la flota -->
+    <!-- Estado convertido en lista desplegable -->
+    <select id="estado" required>
+        <option value="" disabled selected>Seleccione Estado</option>
+        <option value="OPERATIVO">OPERATIVO</option>
+        <option value="PANNE">PANNE</option>
+    </select>
+
+    <!-- Labor realizada -->
+    <select id="labor" required>
+        <option value="Barrido">Barrido</option>
+        <option value="Trapeado">Trapeado</option>
+        <option value="Full">Full</option>
+        <option value="Full Seco">Full Seco</option>
+        <option value="Preparacion DTPM">Preparación DTPM</option>
+        <option value="Preparacion RTG">Preparación RTG</option>
+        <option value="Preparacion APPLUS">Preparación APPLUS</option>
+    </select>
+
+    <button type="submit">Registrar Tarea</button><br><br><br>
+
+<!-- Botón Revisar Pendientes -->
+<button id="revisarPendientesBtnUnique">Revisar Pendientes</button>
+
+<!-- Modal para mostrar los buses pendientes -->
+<div id="pendientesModalUnique" class="modalUnique">
+    <div class="modal-contentUnique">
+        <h2>Buses Pendientes por Realizar</h2>
+        <button class="close-modalUnique" id="closeModalBtnUnique">Cerrar</button>
+        <div class="modal-bodyUnique">
+            <table id="pendientesTableUnique">
+                <thead>
+                    <tr>
+                        <th>PPU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los datos de la hoja FLOTA (columna D) se llenarán aquí -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 
+</form>
 
-
-                <input type="text" id="estado" placeholder="Ingrese Estado" required>
-
-
-                <select id="labor" required>
-                    <option value="Barrido">Barrido</option>
-                    <option value="Trapeado">Trapeado</option>
-                    <option value="Full">Full</option>
-                    <option value="Full Seco">Full Seco</option>
-                    <option value="Preparacion DTPM">Preparación DTPM</option>
-                    <option value="Preparacion RTG">Preparación RTG</option>
-                    <option value="Preparacion APPLUS">Preparación APPLUS</option>
-                </select>
-
-                <button type="submit">Registrar Tarea</button>
-            </form>
 
 
         </section><br>
@@ -137,33 +166,34 @@
 
 
 
-    <!-- Alerta de éxito -->
-<div class="alert success" id="success-alert">
-    <button type="button" class="dismiss" onclick="closeAlert('success-alert')">×</button>
-    <div class="header">
-        <div class="image">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000" d="M20 7L9 18L4 13"></path></svg>
+    <div id="success-alert" class="alert alert-success">
+        <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000"
+                        d="M20 7L9.00004 18L3.99994 13"></path>
+                </g>
+            </svg>
         </div>
-        <div class="content">
-            <span class="title">Registro Realizado</span>
-            <p class="message">El registro ha sido ingresado correctamente.</p>
-        </div>
+        <div class="message">Registro realizado con éxito.</div>
     </div>
-</div>
 
-<!-- Alerta de error -->
-<div class="alert error" id="error-alert">
-    <button type="button" class="dismiss" onclick="closeAlert('error-alert')">×</button>
-    <div class="header">
-        <div class="image">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000" d="M6 6L18 18M6 18L18 6"></path></svg>
+    <div id="error-alert" class="alert alert-error">
+        <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000"
+                        d="M20 7L9.00004 18L3.99994 13"></path>
+                </g>
+            </svg>
         </div>
-        <div class="content">
-            <span class="title">Registro Fallido</span>
-            <p class="message">No se pudo ingresar el registro.</p>
-        </div>
+        <div class="message">Error al registrar el incidente.</div>
     </div>
-</div>
+
 
     <script src="main.js"></script>
 </body>
