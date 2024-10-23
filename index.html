@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Aseo - Minimalista</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://apis.google.com/js/api.js" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <h1>CleanerRed</h1>
+
+
+        <!-- Tarjeta de usuario -->
+        <div class="user-card">
+            <p><strong>Nombre:</strong> <span id="user-name">Invitado</span></p>
+            <p><strong>Estado:</strong> <span id="user-state" class="status-disconnected">Desconectado</span></p>
+            <p><strong>Cargo:</strong> <span id="user-position">Sin Asignar</span></p>
+        </div>
+    </nav>
+
+    <!-- Modal para ingresar nombre y autenticarse -->
+    <div id="sessionModal" class="modal">
+        <div class="modal-content">
+            <h2>Ingrese su nombre completo</h2>
+            <input type="text" id="nombreCompleto" placeholder="Nombre Completo" required>
+            <button id="saveNameBtn" onclick="saveNameAndProceed()">Guardar</button>
+            <button class="close-modal" onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+
+
+    <br><br><br><br>
+
+
+
+
+    <div class="main-content">
+        <header>
+            <h1>Registros de Aseos</h1><br><br>
+        </header>
+
+        <!-- Dashboard section -->
+        <div class="dashboard">
+            <div class="card">
+                <span id="count-barrido">0</span>
+                <h3>Barrido</h3>
+            </div>
+            <div class="card">
+                <span id="count-trapeado">0</span>
+                <h3>Trapeado</h3>
+            </div>
+            <div class="card">
+                <span id="count-full">0</span>
+                <h3>Full</h3>
+            </div>
+            <div class="card">
+                <span id="count-full-seco">0</span>
+                <h3>Full Seco</h3>
+            </div>
+            <div class="card">
+                <span id="count-dtpm">0</span>
+                <h3>Preparación DTPM</h3>
+            </div>
+            <div class="card">
+                <span id="count-rtg">0</span>
+                <h3>Preparación RTG</h3>
+            </div>
+            <div class="card">
+                <span id="count-applus">0</span>
+                <h3>Preparación APPLUS</h3>
+            </div>
+        </div><br><br>
+
+        <section id="form-section">
+            <h2>Registrar Tarea</h2>
+            <form id="incident-form">
+
+                <input type="text" id="ppu" placeholder="Ingrese PPU" required list="ppu-options">
+                <datalist id="ppu-options"></datalist> <!-- Aquí se cargarán las opciones de la flota -->
+
+
+
+
+                <input type="text" id="estado" placeholder="Ingrese Estado" required>
+
+
+                <select id="labor" required>
+                    <option value="Barrido">Barrido</option>
+                    <option value="Trapeado">Trapeado</option>
+                    <option value="Full">Full</option>
+                    <option value="Full Seco">Full Seco</option>
+                    <option value="Preparacion DTPM">Preparación DTPM</option>
+                    <option value="Preparacion RTG">Preparación RTG</option>
+                    <option value="Preparacion APPLUS">Preparación APPLUS</option>
+                </select>
+
+                <button type="submit">Registrar Tarea</button>
+            </form>
+
+
+        </section><br>
+
+        <section id="form-section">
+            <!-- Tabla de tareas -->
+            <table id="tasksTable">
+                <thead>
+                    <tr>
+                        <th>PPU</th>
+                        <th>Estado</th>
+                        <th>Labor</th>
+                        <th>Nombre</th>
+                        <th>Supervisor</th>
+                        <th>Fecha y Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las tareas se cargarán aquí -->
+                </tbody>
+            </table>
+
+            <button id="update-button" onclick="loadIncidents()">Actualizar Tabla</button>
+
+            <button id="download-pdf" onclick="downloadPDF()">Descargar en PDF</button>
+
+        </section>
+    </div>
+
+
+
+    <!-- Alerta de éxito -->
+<div class="alert success" id="success-alert">
+    <button type="button" class="dismiss" onclick="closeAlert('success-alert')">×</button>
+    <div class="header">
+        <div class="image">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000" d="M20 7L9 18L4 13"></path></svg>
+        </div>
+        <div class="content">
+            <span class="title">Registro Realizado</span>
+            <p class="message">El registro ha sido ingresado correctamente.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Alerta de error -->
+<div class="alert error" id="error-alert">
+    <button type="button" class="dismiss" onclick="closeAlert('error-alert')">×</button>
+    <div class="header">
+        <div class="image">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000" d="M6 6L18 18M6 18L18 6"></path></svg>
+        </div>
+        <div class="content">
+            <span class="title">Registro Fallido</span>
+            <p class="message">No se pudo ingresar el registro.</p>
+        </div>
+    </div>
+</div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

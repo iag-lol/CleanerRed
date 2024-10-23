@@ -1,0 +1,613 @@
+/* ================= RESET GLOBAL ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;  /* Evitar scroll horizontal */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #224e9d;
+    color: #fff;
+    padding: 15px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    z-index: 1000;
+    position: fixed;  /* Navbar fijo */
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;  /* Altura fija del navbar */
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+    padding-top: 120px;  /* Ajustar el padding-top para que no se meta detrás del navbar */
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-height: calc(100vh - 100px);  /* Asegurar que el contenido principal ocupe todo el espacio visible */
+}
+
+/* ================= TARJETA DE USUARIO ================= */
+/* Ajuste de la tarjeta de usuario */
+.user-card {
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    font-size: 0.85rem;
+    position: absolute;
+    right: 120px;  /* Alineado a la derecha */
+    top: 50%;
+    transform: translateY(-50%);  /* Centrado verticalmente */
+    min-width: 180px;
+    color: #333;  /* Asegurarse que el texto sea visible */
+}
+
+/* Estado conectado y desconectado */
+.status-disconnected {
+    color: red;
+}
+
+.status-connected {
+    color: green;
+}
+
+/* ================= RESPONSIVIDAD ================= */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px 15px;
+        height: auto; /* Ajustar altura en móviles */
+    }
+
+    .user-card {
+        position: static;  /* Elimina la posición absoluta en pantallas pequeñas */
+        margin-top: 10px;
+        transform: none;
+        text-align: center;
+    }
+
+    .auth-buttons {
+        flex-direction: column;  /* Cambiar los botones a una columna en pantallas pequeñas */
+    }
+    .main-content {
+        padding-top: 140px;  /* Aumentar el espacio superior para móviles */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================= DASHBOARD (CARDS) ================= */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Hace que las columnas se ajusten automáticamente */
+    gap: 15px;  /* Espacio entre los cards */
+    padding: 10px 15px;  /* Espacio en los lados izquierdo y derecho */
+    margin: 0 auto;  /* Centrar el dashboard */
+    max-width: 100%;  /* Ajuste al ancho total de la pantalla */
+    box-sizing: border-box;  /* Asegurar que el padding no afecte el ancho total */
+}
+
+.card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Sombra suave para el card */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+    height: 130px;  /* Ajustar altura para que sean consistentes */
+    max-width: 150px;  /* Limitar el ancho máximo de cada tarjeta */
+}
+
+.card:hover {
+    transform: translateY(-5px);  /* Efecto hover */
+}
+
+.card span {
+    font-size: 2.5rem;
+    color: #808080;  /* Color gris para el número */
+    margin-bottom: auto;
+    line-height: 1;
+}
+
+.card h3 {
+    font-size: 1rem;
+    color: #333;
+    margin-top: auto;
+    padding-bottom: 5px;
+}
+
+/* ================= RESPONSIVIDAD PARA LOS CARDS ================= */
+
+/* Ajuste de las cards en pantallas más pequeñas */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));  /* Ajuste de las columnas en pantallas medianas */
+    }
+    .card {
+        height: 120px;  /* Ajustar altura en pantallas medianas */
+        max-width: 120px;  /* Ajustar tamaño máximo */
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        display: none;
+    }
+    .card {
+        height: 110px;  /* Ajustar altura en pantallas más pequeñas */
+        max-width: 100px;  /* Ajustar tamaño máximo */
+    }
+
+    .card span {
+        font-size: 1.8rem;  /* Tamaño del número reducido */
+    }
+
+    .card h3 {
+        font-size: 0.9rem;  /* Tamaño del texto reducido */
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard {
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));  /* Aún más pequeño en pantallas pequeñas */
+    }
+    .card {
+        height: 100px;
+        max-width: 90px;  /* Ajustar tamaño máximo */
+    }
+
+    .card span {
+        font-size: 1.6rem;
+    }
+
+    .card h3 {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================= FORMULARIO AVANZADO ================= */
+
+#form-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    max-width: 700px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+#form-section:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);  /* Efecto hover más pronunciado */
+}
+
+#form-section h2 {
+    font-size: 2rem;
+    color: #224e9d;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+#form-section h2::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 5px;
+    background-color: #224e9d;
+    border-radius: 5px;
+}
+
+/* ================= ESTILOS PARA LOS INPUTS ================= */
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* Dos columnas */
+    gap: 20px;
+    align-items: center;
+}
+
+form label {
+    position: relative;
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1rem;
+    grid-column: span 2;  /* Ocupará las dos columnas */
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid rgba(105, 105, 105, 0.4);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+form input:focus, form select:focus {
+    border-color: #224e9d;
+    outline: none;
+    box-shadow: 0 0 10px rgba(34, 78, 157, 0.1);
+}
+
+form input::placeholder {
+    color: #bbb;
+}
+
+form button {
+    padding: 15px;
+    background-color: #224e9d;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    grid-column: span 2;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #1b3b7a;
+}
+
+form button:active {
+    transform: scale(0.98);
+}
+
+form label span {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 0.75rem;
+    color: #555;
+    background-color: white;
+    padding: 0 5px;
+    border-radius: 5px;
+}
+
+/* ================= ESTILOS RESPONSIVOS ================= */
+@media (max-width: 768px) {
+    form {
+        grid-template-columns: 1fr;  /* Una columna en pantallas pequeñas */
+    }
+
+    form button {
+        grid-column: span 1;  /* Ajustar el botón al ancho total */
+    }
+
+    #form-section {
+        padding: 20px;
+        max-width: 100%;
+    }
+}
+
+
+
+
+
+/* ================= MODAL ESTILOS ================= */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #224e9d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1d3b7a;
+}
+
+.user-card {
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    font-size: 0.85rem;
+    margin-left: 20px;
+}
+
+.status-disconnected {
+    color: red;
+}
+
+.status-connected {
+    color: green;
+}
+
+
+
+
+
+/* ================= ESTILOS AVANZADOS PARA LA TABLA ================= */
+
+#form-section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+#tasksTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cabeceras */
+#tasksTable thead {
+    background-color: #224e9d;
+    color: white;
+}
+
+#tasksTable thead th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Filas del cuerpo */
+#tasksTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternar colores de filas */
+}
+
+#tasksTable tbody td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+    text-align: left;
+}
+
+#tasksTable tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Evitar que la tabla se salga de los bordes */
+#tasksTable-wrapper {
+    overflow-x: auto;
+}
+
+#tasksTable tbody td:last-child {
+    border-right: none; /* Eliminar la línea derecha de la última columna */
+}
+
+/* ================= BOTONES ================= */
+#update-button, #download-pdf {
+    background-color: #224e9d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#update-button:hover, #download-pdf:hover {
+    background-color: #1a3a7a;
+}
+
+#download-pdf:active, #update-button:active {
+    transform: scale(0.98);
+}
+
+/* ================= RESPONSIVIDAD ================= */
+@media (max-width: 768px) {
+    #tasksTable thead th:nth-child(4), 
+    #tasksTable thead th:nth-child(5), 
+    #tasksTable thead th:nth-child(6),
+    #tasksTable tbody td:nth-child(4), 
+    #tasksTable tbody td:nth-child(5), 
+    #tasksTable tbody td:nth-child(6) {
+        display: none; /* Ocultar columnas en pantallas pequeñas */
+    }
+
+    #tasksTable tbody td {
+        font-size: 0.9rem;
+        padding: 8px 10px;
+    }
+
+    #update-button, #download-pdf {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    #tasksTable {
+        font-size: 0.9rem;
+    }
+
+    #form-section {
+        padding: 10px;
+    }
+}
+
+
+
+/* Estilos comunes para ambas alertas */
+.alert {
+    display: none; /* Oculto por defecto */
+    position: relative;
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    margin: 20px auto;
+    text-align: left;
+}
+
+.dismiss {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 0.5rem;
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.dismiss:hover {
+    color: #ff0000;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.image {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e2feee;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.image svg {
+    width: 24px;
+    height: 24px;
+}
+
+.content .title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.content .message {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #595b5f;
+}
+
+/* Estilos específicos para éxito */
+.success .image {
+    background-color: #e2feee;
+}
+
+.success .image svg path {
+    stroke: #0afa2a;
+}
+
+.success .title {
+    color: #066e29;
+}
+
+/* Estilos específicos para error */
+.error .image {
+    background-color: #ffe2e2;
+}
+
+.error .image svg path {
+    stroke: #ff0000;
+}
+
+.error .title {
+    color: #ff0000;
+}
