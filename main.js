@@ -129,6 +129,105 @@ async function loadFleetData() {
 
 
 
+// Forzar mayúsculas al escribir en el campo PPU y Estado
+document.getElementById('ppu').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();  // Forzar mayúsculas
+});
+
+document.getElementById('estado').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();  // Forzar mayúsculas
+});
+
+// Validar que el campo "Estado" solo permita "OPERATIVO" o "PANNE"
+document.getElementById('incident-form').addEventListener('submit', function(event) {
+    const estadoInput = document.getElementById('estado').value;
+    if (estadoInput !== 'OPERATIVO' && estadoInput !== 'PANNE') {
+        alert('Por favor, ingrese un estado válido: OPERATIVO o PANNE');
+        event.preventDefault();  // Evitar envío del formulario si no es válido
+    }
+});
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Botón para abrir el modal
+    const revisarPendientesBtn = document.getElementById('revisarPendientesBtnUnique');
+    revisarPendientesBtn.addEventListener('click', openPendientesModalUnique);
+
+    // Botón para cerrar el modal
+    const closeModalBtn = document.getElementById('closeModalBtnUnique');
+    closeModalBtn.addEventListener('click', closePendientesModalUnique);
+
+    // Función para cargar los buses pendientes y mostrar el modal
+    async function openPendientesModalUnique() {
+        const modal = document.getElementById('pendientesModalUnique');
+        modal.style.display = 'flex';  // Mostrar el modal
+
+        try {
+            // Llamada a la API de Google Sheets para obtener la columna D de la hoja FLOTA
+            const response = await gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: SPREADSHEET_ID,
+                range: 'FLOTA!D1:D',  // Rango de la columna D en la hoja FLOTA
+            });
+
+            const pendingData = response.result.values || [];
+            const tableBody = document.querySelector('#pendientesTableUnique tbody');
+            tableBody.innerHTML = '';  // Limpiar cualquier contenido previo
+
+            // Rellenar la tabla con los datos obtenidos
+            pendingData.forEach(row => {
+                if (row[0]) {  // Verificar que haya un valor
+                    let tr = document.createElement('tr');
+                    let td = document.createElement('td');
+                    td.textContent = row[0].toUpperCase();  // Convertir a mayúsculas
+                    tr.appendChild(td);
+                    tableBody.appendChild(tr);
+                }
+            });
+
+            if (pendingData.length === 0) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = '<td>No hay buses pendientes</td>';
+                tableBody.appendChild(emptyRow);
+            }
+
+        } catch (error) {
+            console.error('Error al cargar los buses pendientes:', error);
+        }
+    }
+
+    // Función para cerrar el modal
+    function closePendientesModalUnique() {
+        document.getElementById('pendientesModalUnique').style.display = 'none';
+    }
+
+    // Cerrar el modal al hacer clic fuera de la ventana modal
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('pendientesModalUnique');
+        if (event.target === modal) {
+            modal.style.display = 'none';  // Cerrar el modal si se hace clic fuera de él
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -216,6 +315,21 @@ function updateUserCard(userName) {
 
 
 
+// Función para mostrar alertas personalizadas
+function showAlert(type) {
+    const alert = document.getElementById(`${type}-alert`);
+    alert.style.display = 'flex';  // Mostrar alerta
+
+    // Ocultar la alerta después de 5 segundos
+    setTimeout(() => {
+        alert.style.display = 'none';
+    }, 5000);
+}
+
+// Función para cerrar alerta manualmente
+function closeAlert(alertId) {
+    document.getElementById(alertId).style.display = 'none';
+}
 
 
 
@@ -256,10 +370,12 @@ async function addOrUpdateIncident() {
         loadIncidents();
 
         // Alerta de éxito
-        alert('Registro realizado con éxito.');
+        showAlert('success');
+
     } catch (error) {
         console.error('Error al registrar incidente:', error);
-        alert('Error al registrar el incidente.');
+        showAlert('error');
+
     }
 }
 
@@ -417,6 +533,11 @@ function downloadPDF() {
 }
 
 
+
+
+
+
+
 function showAlert(type) {
     const alert = document.getElementById(`${type}-alert`);
     alert.style.display = 'block';
@@ -437,6 +558,11 @@ showAlert('success');
 
 // Mostrar alerta de error
 showAlert('error');
+
+
+
+
+
 
 
 
